@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /apostas/{apostaId} {
+
+      // Qualquer pessoa pode ver a lista de palpites
+      allow read: if true;
+
+      // Qualquer pessoa pode CRIAR seu palpite, desde que:
+      // - o campo "pago" comece como false
+      // - nome e placares tenham o tipo certo
+      allow create: if request.resource.data.pago == false
+                    && request.resource.data.nome is string
+                    && request.resource.data.golsBrasil is int
+                    && request.resource.data.golsNoruega is int;
+
+      // Atualização (editar o próprio palpite) só é permitida se:
+      // - o campo "pago" NÃO for alterado (continua igual ao que já estava salvo), OU
+      // - quem está fazendo a alteração está logado como o admin (você)
+      allow update: if isAdmin() || naoAlterouPago();
+
+      function isAdmin() {
+        return request.auth != null
+               && request.auth.token.email == "TROQUE_PELO_SEU_EMAIL@gmail.com";
+      }
+
+      function naoAlterouPago() {
+        return request.resource.data.pago == resource.data.pago;
+      }
+    }
+  }
+}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolão Capital — Brasil x Noruega</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#12352A;
+    --pitch-dark:#0B231C;
+    --chalk:#F5F2E9;
+    --amber:#FFB627;
+    --navy:#0B2545;
+    --line:rgba(245,242,233,0.14);
+    --red:#C1432B;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--pitch-dark);
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 40px);
+    color:var(--chalk);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:0 20px 80px;}
+
+  /* HEADER — ticket/matchday banner */
+  header{
+    padding:36px 0 28px;
+    text-align:center;
+    border-bottom:2px dashed var(--line);
+    margin-bottom:34px;
+  }
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    letter-spacing:0.18em;
+    font-size:12px;
+    color:var(--amber);
+    text-transform:uppercase;
+  }
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:clamp(32px,7vw,52px);
+    margin:8px 0 4px;
+    letter-spacing:0.01em;
+    text-transform:uppercase;
+    line-height:1.05;
+  }
+  .vs{color:var(--amber);}
+  .subtitle{
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+    color:rgba(245,242,233,0.6);
+  }
+
+  /* FORM */
+  .card{
+    background:var(--pitch);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:24px;
+    margin-bottom:28px;
+  }
+  .card h2{
+    font-family:'Oswald',sans-serif;
+    font-size:18px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin:0 0 16px;
+    color:var(--amber);
+  }
+  .form-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+  label{
+    font-size:11px;
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:rgba(245,242,233,0.55);
+    display:block;
+    margin-bottom:6px;
+  }
+  input[type=text], input[type=number]{
+    background:var(--pitch-dark);
+    border:1px solid var(--line);
+    color:var(--chalk);
+    padding:10px 12px;
+    border-radius:4px;
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    width:100%;
+  }
+  input[type=number]{
+    font-family:'Space Mono',monospace;
+    font-size:20px;
+    text-align:center;
+    width:64px;
+  }
+  .placar-input{display:flex;align-items:center;gap:10px;}
+  .placar-input span{font-family:'Oswald',sans-serif;color:var(--amber);font-size:14px;}
+  .name-field{flex:1;min-width:180px;}
+  button{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-weight:600;
+    font-size:14px;
+    border:none;
+    border-radius:4px;
+    padding:12px 22px;
+    cursor:pointer;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .btn-primary{background:var(--amber);color:var(--pitch-dark);}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .msg{font-family:'Space Mono',monospace;font-size:12px;margin-top:10px;min-height:16px;}
+  .msg.ok{color:#8FD19E;}
+  .msg.err{color:#E8846B;}
+
+  /* SCOREBOARD LIST */
+  .board-title{
+    display:flex;justify-content:space-between;align-items:baseline;
+    margin-bottom:12px;
+  }
+  .board-title h2{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    font-size:20px;
+    letter-spacing:0.03em;
+    margin:0;
+  }
+  .count{font-family:'Space Mono',monospace;font-size:12px;color:rgba(245,242,233,0.5);}
+
+  .row{
+    display:grid;
+    grid-template-columns:1fr auto auto;
+    align-items:center;
+    gap:14px;
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  .row .nome{font-size:15px;font-weight:500;}
+  .row .batista-tag{font-size:11px;color:rgba(245,242,233,0.45);font-family:'Space Mono',monospace;display:block;margin-top:2px;}
+
+  .flip{
+    font-family:'Space Mono',monospace;
+    font-weight:700;
+    font-size:20px;
+    background:var(--navy);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:6px 12px;
+    letter-spacing:0.05em;
+    white-space:nowrap;
+  }
+
+  .status-pill{
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    padding:5px 10px;
+    border-radius:20px;
+    text-align:center;
+    min-width:74px;
+  }
+  .paid{background:rgba(143,209,158,0.15);color:#8FD19E;border:1px solid rgba(143,209,158,0.4);}
+  .unpaid{background:rgba(232,132,107,0.12);color:#E8846B;border:1px solid rgba(232,132,107,0.35);}
+  .status-pill.clickable{cursor:pointer;}
+  .status-pill.clickable:hover{filter:brightness(1.2);}
+
+  /* ADMIN */
+  .admin-toggle{
+    position:fixed;bottom:18px;right:18px;
+    width:40px;height:40px;border-radius:50%;
+    background:var(--pitch);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:16px;color:var(--amber);
+    opacity:0.55;
+  }
+  .admin-toggle:hover{opacity:1;}
+  .admin-panel{
+    position:fixed;bottom:70px;right:18px;
+    background:var(--pitch);border:1px solid var(--line);
+    border-radius:8px;padding:18px;width:240px;
+    display:none;box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  }
+  .admin-panel.open{display:block;}
+  .admin-panel input{margin-bottom:10px;}
+  .admin-panel .btn-primary{width:100%;}
+  .admin-status{font-family:'Space Mono',monospace;font-size:11px;margin-top:8px;color:rgba(245,242,233,0.5);}
+
+  footer{
+    text-align:center;
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    color:rgba(245,242,233,0.35);
+    margin-top:40px;
+  }
+
+  @media (max-width:520px){
+    .row{grid-template-columns:1fr;gap:8px;}
+    .flip, .status-pill{justify-self:start;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Copa do Mundo 2026 · Construtora Capital</div>
+    <h1>Brasil <span class="vs">×</span> Noruega</h1>
+    <div class="subtitle">bolão do escritório — palpite é até fechar o placar oficial</div>
+    <nav style="margin-top:14px;"><a href="palpites.html" style="font-family:'Space Mono',monospace;font-size:12px;color:var(--amber);text-decoration:none;border:1px solid var(--line);padding:6px 14px;border-radius:20px;">ver todos os palpites →</a></nav>
+  </header>
+
+  <div class="card">
+    <h2>Registrar meu palpite</h2>
+    <div class="form-row">
+      <div class="name-field">
+        <label for="nome">Seu nome</label>
+        <input type="text" id="nome" placeholder="Ex: Mauro">
+      </div>
+      <div>
+        <label>Placar</label>
+        <div class="placar-input">
+          <input type="number" id="golsBrasil" min="0" max="20" placeholder="0">
+          <span>BRA × NOR</span>
+          <input type="number" id="golsNoruega" min="0" max="20" placeholder="0">
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="enviarPalpite()">Salvar palpite</button>
+    <div id="formMsg" class="msg"></div>
+  </div>
+
+  <div class="board-title">
+    <h2>Placar dos palpites</h2>
+    <span class="count" id="contagem">carregando…</span>
+  </div>
+  <div class="card" style="padding:0;">
+    <div id="lista"></div>
+  </div>
+
+  <footer>gerado a partir do grupo do WhatsApp · dados no Firebase</footer>
+</div>
+
+<div class="admin-toggle" onclick="toggleAdmin()" title="Área da Juliete/Mauro">🔒</div>
+<div class="admin-panel" id="adminPanel">
+  <label>E-mail admin</label>
+  <input type="text" id="adminEmail">
+  <label>Senha</label>
+  <input type="text" id="adminSenha">
+  <button class="btn-primary" onclick="loginAdmin()">Entrar</button>
+  <div class="admin-status" id="adminStatus">não autenticado</div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, onSnapshot, doc, setDoc, updateDoc, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth, signInWithEmailAndPassword, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  // ⚠️ COLE AQUI a configuração do SEU projeto Firebase (veja README.md)
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-opvP5mVIhHOz0Sd80v8mjtHw1tQhscI",
+    authDomain: "bolao-a8464.firebaseapp.com",
+    projectId: "bolao-a8464",
+    storageBucket: "bolao-a8464.firebasestorage.app",
+    messagingSenderId: "1041879849501",
+    appId: "1:1041879849501:web:ef8a85e0b376be748f44f4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getAuth ? getFirestore(app) : null;
+  const auth = getAuth(app);
+  const apostasRef = collection(db, "apostas");
+
+  let isAdmin = false;
+
+  window.enviarPalpite = async function() {
+    const nome = document.getElementById("nome").value.trim();
+    const gb = document.getElementById("golsBrasil").value;
+    const gn = document.getElementById("golsNoruega").value;
+    const msg = document.getElementById("formMsg");
+
+    if(!nome || gb === "" || gn === ""){
+      msg.textContent = "Preencha nome e os dois placares.";
+      msg.className = "msg err";
+      return;
+    }
+    const id = nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]/g,"-");
+    try{
+      await setDoc(doc(apostasRef, id), {
+        nome, golsBrasil: Number(gb), golsNoruega: Number(gn),
+        pago: false, atualizadoEm: serverTimestamp()
+      }, { merge: true });
+      msg.textContent = "Palpite salvo! ✅";
+      msg.className = "msg ok";
+      document.getElementById("nome").value="";
+      document.getElementById("golsBrasil").value="";
+      document.getElementById("golsNoruega").value="";
+    }catch(e){
+      msg.textContent = "Erro ao salvar: " + e.message;
+      msg.className = "msg err";
+    }
+  }
+
+  window.toggleAdmin = function(){
+    document.getElementById("adminPanel").classList.toggle("open");
+  }
+
+  window.loginAdmin = async function(){
+    const email = document.getElementById("adminEmail").value.trim();
+    const senha = document.getElementById("adminSenha").value;
+    const status = document.getElementById("adminStatus");
+    try{
+      await signInWithEmailAndPassword(auth, email, senha);
+      status.textContent = "logado ✅";
+    }catch(e){
+      status.textContent = "falha no login";
+    }
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    isAdmin = !!user;
+    document.getElementById("adminStatus").textContent = user ? `logado como ${user.email}` : "não autenticado";
+    renderLista(window.__ultimaLista || []);
+  });
+
+  window.marcarPago = async function(id, statusAtual){
+    if(!isAdmin){
+      alert("Só quem está logado como admin pode alterar o status de pagamento.");
+      return;
+    }
+    await updateDoc(doc(apostasRef, id), { pago: !statusAtual });
+  }
+
+  function renderLista(items){
+    window.__ultimaLista = items;
+    const lista = document.getElementById("lista");
+    document.getElementById("contagem").textContent = `${items.length} palpite(s)`;
+    lista.innerHTML = items.map(it => `
+      <div class="row">
+        <div>
+          <div class="nome">${it.nome}</div>
+        </div>
+        <div class="flip">${it.golsBrasil} × ${it.golsNoruega}</div>
+        <div class="status-pill ${it.pago ? 'paid':'unpaid'} ${isAdmin ? 'clickable':''}"
+             onclick="${isAdmin ? `marcarPago('${it.id}', ${it.pago})` : ''}">
+          ${it.pago ? 'Pago' : 'Pendente'}
+        </div>
+      </div>
+    `).join("") || `<div class="row"><div class="nome">Nenhum palpite ainda — seja o primeiro!</div></div>`;
+  }
+
+  onSnapshot(apostasRef, (snap) => {
+    const items = [];
+    snap.forEach(d => items.push({ id: d.id, ...d.data() }));
+    items.sort((a,b) => a.nome.localeCompare(b.nome));
+    renderLista(items);
+  });
+</script>
+</body>
+</html>
