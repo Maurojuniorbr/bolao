@@ -8,25 +8,31 @@ service cloud.firestore {
       allow read: if true;
 
       // Qualquer pessoa pode CRIAR seu palpite, desde que:
-      // - o campo "pago" comece como false
+      // - pago comece false, valorPago comece 0, resultado comece vazio
       // - nome e placares tenham o tipo certo
       allow create: if request.resource.data.pago == false
+                    && request.resource.data.valorPago == 0
+                    && request.resource.data.resultado == ""
                     && request.resource.data.nome is string
                     && request.resource.data.golsBrasil is int
                     && request.resource.data.golsNoruega is int;
 
-      // Atualização (editar o próprio palpite) só é permitida se:
-      // - o campo "pago" NÃO for alterado (continua igual ao que já estava salvo), OU
-      // - quem está fazendo a alteração está logado como o admin (você)
-      allow update: if isAdmin() || naoAlterouPago();
+      // Atualização é permitida se:
+      // - quem está alterando é o admin (pode mudar QUALQUER campo, inclusive
+      //   placar, pago, valorPago e resultado), OU
+      // - a pessoa está só reenviando/corrigindo o próprio palpite (nome e
+      //   placar) e NÃO mexeu em pago, valorPago nem resultado
+      allow update: if isAdmin() || naoAlterouCamposDoAdmin();
 
       function isAdmin() {
         return request.auth != null
-               && request.auth.token.email == "TROQUE_PELO_SEU_EMAIL@gmail.com";
+               && request.auth.token.email == "maurojuniorbr@live.com";
       }
 
-      function naoAlterouPago() {
-        return request.resource.data.pago == resource.data.pago;
+      function naoAlterouCamposDoAdmin() {
+        return request.resource.data.pago == resource.data.pago
+               && request.resource.data.valorPago == resource.data.valorPago
+               && request.resource.data.resultado == resource.data.resultado;
       }
     }
   }

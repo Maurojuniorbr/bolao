@@ -26,9 +26,8 @@
     font-family:'Inter',sans-serif;
     min-height:100vh;
   }
-  .wrap{max-width:840px;margin:0 auto;padding:0 20px 80px;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
 
-  /* HEADER — ticket/matchday banner */
   header{
     padding:36px 0 28px;
     text-align:center;
@@ -58,7 +57,6 @@
     color:rgba(245,242,233,0.6);
   }
 
-  /* FORM */
   .card{
     background:var(--pitch);
     border:1px solid var(--line);
@@ -117,13 +115,17 @@
   }
   .btn-primary{background:var(--amber);color:var(--pitch-dark);}
   .btn-primary:hover{transform:translateY(-1px);}
+  .btn-small{
+    font-size:11px;padding:6px 10px;background:var(--amber);color:var(--pitch-dark);
+    border-radius:4px;
+  }
   .msg{font-family:'Space Mono',monospace;font-size:12px;margin-top:10px;min-height:16px;}
   .msg.ok{color:#8FD19E;}
   .msg.err{color:#E8846B;}
 
   /* SCOREBOARD LIST */
   .board-title{
-    display:flex;justify-content:space-between;align-items:baseline;
+    display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;
     margin-bottom:12px;
   }
   .board-title h2{
@@ -133,18 +135,42 @@
     letter-spacing:0.03em;
     margin:0;
   }
+  .arrecadado{
+    text-align:right;
+  }
+  .arrecadado .label{
+    font-family:'Space Mono',monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:rgba(245,242,233,0.5);
+    display:block;
+  }
+  .arrecadado .valor{
+    font-family:'Oswald',sans-serif;
+    font-size:22px;
+    font-weight:700;
+    color:var(--amber);
+  }
   .count{font-family:'Space Mono',monospace;font-size:12px;color:rgba(245,242,233,0.5);}
 
   .row{
     display:grid;
-    grid-template-columns:1fr auto auto;
+    grid-template-columns:1.3fr 1fr 1.4fr 1fr;
     align-items:center;
     gap:14px;
     padding:14px 16px;
     border-bottom:1px solid var(--line);
   }
   .row .nome{font-size:15px;font-weight:500;}
-  .row .batista-tag{font-size:11px;color:rgba(245,242,233,0.45);font-family:'Space Mono',monospace;display:block;margin-top:2px;}
+  .col-label{
+    display:none;
+    font-family:'Space Mono',monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    color:rgba(245,242,233,0.4);
+    margin-bottom:4px;
+  }
 
   .flip{
     font-family:'Space Mono',monospace;
@@ -156,8 +182,14 @@
     padding:6px 12px;
     letter-spacing:0.05em;
     white-space:nowrap;
+    display:inline-block;
   }
+  .flip.editavel{cursor:pointer;border-color:var(--amber);}
+  .flip.editavel:hover{background:#12335A;}
+  .edit-placar{display:flex;align-items:center;gap:6px;}
+  .edit-placar input{width:42px;padding:6px;font-size:16px;}
 
+  .pago-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .status-pill{
     font-family:'Space Mono',monospace;
     font-size:11px;
@@ -166,12 +198,35 @@
     padding:5px 10px;
     border-radius:20px;
     text-align:center;
-    min-width:74px;
+    min-width:70px;
   }
   .paid{background:rgba(143,209,158,0.15);color:#8FD19E;border:1px solid rgba(143,209,158,0.4);}
   .unpaid{background:rgba(232,132,107,0.12);color:#E8846B;border:1px solid rgba(232,132,107,0.35);}
   .status-pill.clickable{cursor:pointer;}
   .status-pill.clickable:hover{filter:brightness(1.2);}
+  .valor-input{
+    width:76px;font-size:13px;padding:6px 8px;
+  }
+  .valor-texto{
+    font-family:'Space Mono',monospace;font-size:12px;color:rgba(245,242,233,0.6);
+  }
+
+  .resultado-pill{
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    padding:5px 10px;
+    border-radius:20px;
+    text-align:center;
+    min-width:70px;
+    display:inline-block;
+  }
+  .ganhou{background:rgba(255,182,39,0.15);color:var(--amber);border:1px solid rgba(255,182,39,0.4);}
+  .perdeu{background:rgba(245,242,233,0.06);color:rgba(245,242,233,0.4);border:1px solid var(--line);}
+  .indefinido{background:transparent;color:rgba(245,242,233,0.3);border:1px dashed var(--line);}
+  .resultado-pill.clickable{cursor:pointer;}
+  .resultado-pill.clickable:hover{filter:brightness(1.3);}
 
   /* ADMIN */
   .admin-toggle{
@@ -188,11 +243,16 @@
     background:var(--pitch);border:1px solid var(--line);
     border-radius:8px;padding:18px;width:240px;
     display:none;box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    z-index:20;
   }
   .admin-panel.open{display:block;}
   .admin-panel input{margin-bottom:10px;}
   .admin-panel .btn-primary{width:100%;}
   .admin-status{font-family:'Space Mono',monospace;font-size:11px;margin-top:8px;color:rgba(245,242,233,0.5);}
+  .admin-badge{
+    font-family:'Space Mono',monospace;font-size:11px;color:var(--amber);
+    text-align:center;margin-bottom:16px;
+  }
 
   footer{
     text-align:center;
@@ -202,19 +262,18 @@
     margin-top:40px;
   }
 
-  @media (max-width:520px){
-    .row{grid-template-columns:1fr;gap:8px;}
-    .flip, .status-pill{justify-self:start;}
+  @media (max-width:640px){
+    .row{grid-template-columns:1fr;gap:6px;}
+    .col-label{display:block;}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">Copa do Mundo 2026 </div>
+    <div class="eyebrow">Copa do Mundo 2026 · Construtora Capital</div>
     <h1>Brasil <span class="vs">×</span> Noruega</h1>
-    <div class="subtitle">bolão — Fecha as 12:00 de 05/07</div>
-    <nav style="margin-top:14px;"><a href="palpites.html" style="font-family:'Space Mono',monospace;font-size:12px;color:var(--amber);text-decoration:none;border:1px solid var(--line);padding:6px 14px;border-radius:20px;">ver todos os palpites →</a></nav>
+    <div class="subtitle">bolão do escritório — palpite é até fechar o placar oficial</div>
   </header>
 
   <div class="card">
@@ -225,7 +284,7 @@
         <input type="text" id="nome" placeholder="Ex: Mauro">
       </div>
       <div>
-        <label>Placar (Digite direto ou selecione)</label>
+        <label>Placar</label>
         <div class="placar-input">
           <input type="number" id="golsBrasil" min="0" max="20" placeholder="0">
           <span>BRA × NOR</span>
@@ -238,8 +297,14 @@
   </div>
 
   <div class="board-title">
-    <h2>Placar dos palpites</h2>
-    <span class="count" id="contagem">carregando…</span>
+    <div>
+      <h2>Placar dos Palpites</h2>
+      <span class="count" id="contagem">carregando…</span>
+    </div>
+    <div class="arrecadado">
+      <span class="label">Valor arrecadado</span>
+      <span class="valor" id="valorArrecadado">R$ 0,00</span>
+    </div>
   </div>
   <div class="card" style="padding:0;">
     <div id="lista"></div>
@@ -250,6 +315,7 @@
 
 <div class="admin-toggle" onclick="toggleAdmin()" title="Área da Juliete/Mauro">🔒</div>
 <div class="admin-panel" id="adminPanel">
+  <div class="admin-badge" id="adminBadge" style="display:none;">✅ modo admin ativo</div>
   <label>E-mail admin</label>
   <input type="text" id="adminEmail">
   <label>Senha</label>
@@ -270,20 +336,21 @@
 
   // ⚠️ COLE AQUI a configuração do SEU projeto Firebase (veja README.md)
   const firebaseConfig = {
-    apiKey: "AIzaSyD-opvP5mVIhHOz0Sd80v8mjtHw1tQhscI",
-    authDomain: "bolao-a8464.firebaseapp.com",
-    projectId: "bolao-a8464",
-    storageBucket: "bolao-a8464.firebasestorage.app",
-    messagingSenderId: "1041879849501",
-    appId: "1:1041879849501:web:ef8a85e0b376be748f44f4"
+    apiKey: "COLE_AQUI",
+    authDomain: "COLE_AQUI.firebaseapp.com",
+    projectId: "COLE_AQUI",
+    storageBucket: "COLE_AQUI.appspot.com",
+    messagingSenderId: "COLE_AQUI",
+    appId: "COLE_AQUI"
   };
 
   const app = initializeApp(firebaseConfig);
-  const db = getAuth ? getFirestore(app) : null;
+  const db = getFirestore(app);
   const auth = getAuth(app);
   const apostasRef = collection(db, "apostas");
 
   let isAdmin = false;
+  let editandoPlacarId = null; // id da linha cujo placar está em modo edição
 
   window.enviarPalpite = async function() {
     const nome = document.getElementById("nome").value.trim();
@@ -300,7 +367,8 @@
     try{
       await setDoc(doc(apostasRef, id), {
         nome, golsBrasil: Number(gb), golsNoruega: Number(gn),
-        pago: false, atualizadoEm: serverTimestamp()
+        pago: false, valorPago: 0, resultado: "",
+        atualizadoEm: serverTimestamp()
       }, { merge: true });
       msg.textContent = "Palpite salvo! ✅";
       msg.className = "msg ok";
@@ -332,33 +400,122 @@
   onAuthStateChanged(auth, (user) => {
     isAdmin = !!user;
     document.getElementById("adminStatus").textContent = user ? `logado como ${user.email}` : "não autenticado";
+    document.getElementById("adminBadge").style.display = user ? "block" : "none";
     renderLista(window.__ultimaLista || []);
   });
 
+  // ---- Ações exclusivas do admin ----
+
   window.marcarPago = async function(id, statusAtual){
-    if(!isAdmin){
-      alert("Só quem está logado como admin pode alterar o status de pagamento.");
-      return;
-    }
+    if(!isAdmin){ alert("Só o admin logado pode alterar o status de pagamento."); return; }
     await updateDoc(doc(apostasRef, id), { pago: !statusAtual });
+  }
+
+  window.salvarValor = async function(id){
+    if(!isAdmin) return;
+    const input = document.getElementById("valor-" + id);
+    const valor = input.value === "" ? 0 : Number(input.value);
+    await updateDoc(doc(apostasRef, id), { valorPago: valor });
+  }
+
+  window.alternarResultado = async function(id, atual){
+    if(!isAdmin){ alert("Só o admin logado pode marcar Ganhou/Perdeu."); return; }
+    const proximo = atual === "ganhou" ? "perdeu" : (atual === "perdeu" ? "" : "ganhou");
+    await updateDoc(doc(apostasRef, id), { resultado: proximo });
+  }
+
+  window.iniciarEdicaoPlacar = function(id){
+    if(!isAdmin) return;
+    editandoPlacarId = id;
+    renderLista(window.__ultimaLista || []);
+    setTimeout(() => {
+      const el = document.getElementById("editGB-" + id);
+      if(el) el.focus();
+    }, 30);
+  }
+
+  window.salvarPlacar = async function(id){
+    const gb = document.getElementById("editGB-" + id).value;
+    const gn = document.getElementById("editGN-" + id).value;
+    editandoPlacarId = null;
+    if(gb === "" || gn === "") { renderLista(window.__ultimaLista || []); return; }
+    await updateDoc(doc(apostasRef, id), { golsBrasil: Number(gb), golsNoruega: Number(gn) });
+  }
+
+  window.cancelarEdicaoPlacar = function(){
+    editandoPlacarId = null;
+    renderLista(window.__ultimaLista || []);
+  }
+
+  function formatarMoeda(valor){
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
   function renderLista(items){
     window.__ultimaLista = items;
     const lista = document.getElementById("lista");
     document.getElementById("contagem").textContent = `${items.length} palpite(s)`;
-    lista.innerHTML = items.map(it => `
+
+    const totalArrecadado = items
+      .filter(it => it.pago)
+      .reduce((soma, it) => soma + (Number(it.valorPago) || 0), 0);
+    document.getElementById("valorArrecadado").textContent = formatarMoeda(totalArrecadado);
+
+    lista.innerHTML = items.map(it => {
+      const placarHtml = (isAdmin && editandoPlacarId === it.id)
+        ? `<div class="edit-placar">
+             <input type="number" id="editGB-${it.id}" value="${it.golsBrasil}" min="0" max="20"
+                    onkeydown="if(event.key==='Enter') salvarPlacar('${it.id}')">
+             <span style="font-family:'Oswald',sans-serif;color:var(--amber);">×</span>
+             <input type="number" id="editGN-${it.id}" value="${it.golsNoruega}" min="0" max="20"
+                    onkeydown="if(event.key==='Enter') salvarPlacar('${it.id}')">
+             <button class="btn-small" onclick="salvarPlacar('${it.id}')">✓</button>
+           </div>`
+        : `<div class="flip ${isAdmin ? 'editavel' : ''}"
+                ${isAdmin ? `onclick="iniciarEdicaoPlacar('${it.id}')" title="Clique para editar"` : ''}>
+             ${it.golsBrasil} × ${it.golsNoruega}
+           </div>`;
+
+      const valorHtml = isAdmin
+        ? `<input type="number" class="valor-input" id="valor-${it.id}" placeholder="R$"
+                  value="${it.valorPago ? it.valorPago : ''}"
+                  onchange="salvarValor('${it.id}')"
+                  onkeydown="if(event.key==='Enter') this.blur()">`
+        : (it.valorPago ? `<span class="valor-texto">${formatarMoeda(Number(it.valorPago))}</span>` : '');
+
+      const resultadoAtual = it.resultado || "";
+      const resultadoLabel = resultadoAtual === "ganhou" ? "Ganhou" : (resultadoAtual === "perdeu" ? "Perdeu" : "—");
+      const resultadoClasse = resultadoAtual === "ganhou" ? "ganhou" : (resultadoAtual === "perdeu" ? "perdeu" : "indefinido");
+
+      return `
       <div class="row">
         <div>
+          <span class="col-label">Nome</span>
           <div class="nome">${it.nome}</div>
         </div>
-        <div class="flip">${it.golsBrasil} × ${it.golsNoruega}</div>
-        <div class="status-pill ${it.pago ? 'paid':'unpaid'} ${isAdmin ? 'clickable':''}"
-             onclick="${isAdmin ? `marcarPago('${it.id}', ${it.pago})` : ''}">
-          ${it.pago ? 'Pago' : 'Pendente'}
+        <div>
+          <span class="col-label">Placar</span>
+          ${placarHtml}
         </div>
-      </div>
-    `).join("") || `<div class="row"><div class="nome">Nenhum palpite ainda — seja o primeiro!</div></div>`;
+        <div>
+          <span class="col-label">Pagamento</span>
+          <div class="pago-wrap">
+            <div class="status-pill ${it.pago ? 'paid':'unpaid'} ${isAdmin ? 'clickable':''}"
+                 onclick="${isAdmin ? `marcarPago('${it.id}', ${it.pago})` : ''}">
+              ${it.pago ? 'Pago' : 'Pendente'}
+            </div>
+            ${valorHtml}
+          </div>
+        </div>
+        <div>
+          <span class="col-label">Resultado</span>
+          <div class="resultado-pill ${resultadoClasse} ${isAdmin ? 'clickable':''}"
+               onclick="${isAdmin ? `alternarResultado('${it.id}', '${resultadoAtual}')` : ''}">
+            ${resultadoLabel}
+          </div>
+        </div>
+      </div>`;
+    }).join("") || `<div class="row"><div class="nome">Nenhum palpite ainda — seja o primeiro!</div></div>`;
   }
 
   onSnapshot(apostasRef, (snap) => {
