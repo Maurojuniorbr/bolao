@@ -26,7 +26,7 @@ service cloud.firestore {
 
       function isAdmin() {
         return request.auth != null
-               && request.auth.token.email == "maurojuniorbr@live.com";
+               && request.auth.token.email == "mmunizjunior@gmail.com";
       }
 
       function naoAlterouCamposDoAdmin() {
